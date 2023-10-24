@@ -57,3 +57,19 @@ svg.append("path")
    
   });
     
+// create CSV string
+var csvString = [
+  "../Clean Data Project 3/CSV's/Commulative daily cases by year/Commulative daily cases 2021.csv"
+];
+anychart.onDocumentLoad(function () {
+  // create an instance of a pie chart
+  var chart = anychart.pie();
+  // set the data
+  chart.data(csvString);
+  // set chart title
+  chart.title("Commulative daily cases 2021");
+  // set the container element 
+  chart.container("container");
+  // initiate chart display
+  chart.draw();
+});
