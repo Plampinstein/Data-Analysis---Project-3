@@ -121,8 +121,6 @@ d3.csv("../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 
         .call(d3.axisLeft(yScale));
 });
 
-<<<<<<<< HEAD:Project-folder/static/js/app.js
-   
   });
     
 // create CSV string
@@ -141,5 +139,3 @@ anychart.onDocumentLoad(function () {
   // initiate chart display
   chart.draw();
 });
-========
->>>>>>>> perla:Project-folder/app.js
