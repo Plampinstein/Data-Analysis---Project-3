@@ -1,59 +1,123 @@
-const csvFiles = [
-    "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2020.csv",
-    "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2021.csv",
-    "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2022.csv",
-    "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2023.csv",
-  ];
-  function fetchCSVData(csvFiles) {
-    const promises = csvFiles.map((file) => d3.csv(file));
-    return Promise.all(promises);
-  }
-  fetchCSVData(csvFiles)
-  .then((dataArray) => {
-    // dataArray will be an array of data from each CSV file
-    console.log(dataArray);
+// const csvFiles = [
+//     "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2020.csv",
+//     "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2021.csv",
+//     "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2022.csv",
+//     "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2023.csv",
+//   ];
+//   function fetchCSVData(csvFiles) {
+//     const promises = csvFiles.map((file) => d3.csv(file));
+//     return Promise.all(promises);
+//   }
+//   fetchCSVData(csvFiles)
+//   .then((dataArray) => {
+//     // Loop through the dataArray to create charts for each year
+//     dataArray.forEach((data, index) => {
+//       // You can access data for each year using data[index]
 
-    // State wide cases and fatalities chart
-    const container = d3.select("cases_fatalities");
-    const width = 600;
-    const height = 400;
+//       // Statewide cases and fatalities chart
+//       const container = d3.select("#cases_fatalities");
+//       const width = 600;
+//       const height = 400;
 
-    const svg = container.append("svg")
+//       const svg = container.append("svg")
+//         .attr("width", width)
+//         .attr("height", height);
+
+//       // Parse the date values if needed
+//       data.forEach(d => {
+//         d.county = new Date(d.county);
+//         d.value = +d.value; // Convert to a number
+//       });
+
+//       // Set up scales for x and y
+//       const xScale = d3.scaleTime()
+//         .domain(d3.extent(data, d => d.county))
+//         .range([0, width]);
+
+//       const yScale = d3.scaleLinear()
+//         .domain([0, d3.max(data, d => d.value)])
+//         .range([height, 0]);
+
+//       // Create a line generator
+//       const line = d3.line()
+//         .x(d => xScale(d.county))
+//         .y(d => yScale(d.value));
+
+//       // Append the line to the SVG
+//       svg.append("path")
+//         .datum(data)
+//         .attr("fill", "none")
+//         .attr("stroke", "steelblue")
+//         .attr("stroke-width", 2)
+//         .attr("d", line);
+
+      
+//     });
+//   });
+
+// Define the width and height for the chart
+const width = 600;
+const height = 400;
+
+// Select the chart container
+const container = d3.select("#barchart");
+
+// Create an SVG element for the chart
+const svg = container.append("svg")
     .attr("width", width)
     .attr("height", height);
 
-    d3.csv("cases and fatalities 2020.csv").then(data => {
-        // Parse the date values if needed
-        data.forEach(d => {
-          d.county = new Date(d.county);
-          d.value = +d.value; // Convert to a number
-        });
+// Load the CSV file and create the bar chart
+d3.csv("../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2020.csv").then(function (data) {
+    // Convert the numeric values to numbers
+    data.forEach(function (d) {
+        d.label = d.label;
+        d.value1 = +d.value1;
+        d.value2 = +d.value2;
+    });
 
-        
-// Set up scales for x and y
-const xScale = d3.scaleTime()
-.domain(d3.extent(data, d => d.county))
-.range([0, width]);
+    // Create a scale for the x-axis (labels)
+    const xScale = d3.scaleBand()
+        .domain(data.map(d => d.label))
+        .range([0, width])
+        .padding(0.1);
 
-const yScale = d3.scaleLinear()
-.domain([0, d3.max(data, d => d.value)])
-.range([height, 0]);
+    // Create a scale for the y-axis (values)
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(data, d => Math.max(d.value1, d.value2))])
+        .range([height, 0]);
 
-// Create a line generator
-const line = d3.line()
-.x(d => xScale(d.county))
-.y(d => yScale(d.value));
+    // Create bars for value1
+    svg.selectAll(".bar1")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", d => xScale(d.label))
+        .attr("width", xScale.bandwidth() / 2)
+        .attr("y", d => yScale(d.value1))
+        .attr("height", d => height - yScale(d.value1));
 
+    // Create bars for value2
+    svg.selectAll(".bar2")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", d => xScale(d.label) + xScale.bandwidth() / 2)
+        .attr("width", xScale.bandwidth() / 2)
+        .attr("y", d => yScale(d.value2))
+        .attr("height", d => height - yScale(d.value2));
 
-// Append the line to the SVG
-svg.append("path")
-.datum(data)
-.attr("fill", "none")
-.attr("stroke", "steelblue")
-.attr("stroke-width", 2)
-.attr("d", line);
+    // Create x-axis
+    svg.append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(xScale));
+
+    // Create y-axis
+    svg.append("g")
+        .attr("class", "y-axis")
+        .call(d3.axisLeft(yScale));
 });
 
-   
-  });
-    
