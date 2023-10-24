@@ -71,10 +71,13 @@ const svg = container.append("svg")
 d3.csv("../data/CSVs/Cases and fatalities/Cases and fatalities 2020.csv").then(function (data) {
     // Convert the numeric values to numbers
     data.forEach(function (d) {
-        d.label = d.label;
-        d.value1 = +d.value1;
-        d.value2 = +d.value2;
+        d.label = d.County;
+        d.value1 = parseInt(d["Confirmed Cases"]);
+        d.value2 = parseInt(d["Fatalities"]);
     });
+
+    const width = 600;
+    const height = 400;
 
     // Create a scale for the x-axis (labels)
     const xScale = d3.scaleBand()
@@ -85,7 +88,7 @@ d3.csv("../data/CSVs/Cases and fatalities/Cases and fatalities 2020.csv").then(f
     // Create a scale for the y-axis (values)
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => Math.max(d.value1, d.value2))])
-        .range([height, 0]);
+        .range([0, height]);
 
     // Create bars for value1
     svg.selectAll(".bar1")
@@ -112,7 +115,7 @@ d3.csv("../data/CSVs/Cases and fatalities/Cases and fatalities 2020.csv").then(f
     // Create x-axis
     svg.append("g")
         .attr("class", "x-axis")
-        .attr("transform", "translate(0, ${height})")
+        .attr("transform", `translate(0, ${height})`)
         .call(d3.axisBottom(xScale));
 
     // Create y-axis
