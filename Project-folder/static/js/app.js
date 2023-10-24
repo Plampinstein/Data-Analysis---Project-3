@@ -1,8 +1,8 @@
 // const csvFiles = [
-//     "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2020.csv",
-//     "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2021.csv",
-//     "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2022.csv",
-//     "../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 2023.csv",
+//     "../Clean Data Project 3/CSVs/Cases and fatalities/cases and fatalities 2020.csv",
+//     "../Clean Data Project 3/CSVs/Cases and fatalities/cases and fatalities 2021.csv",
+//     "../Clean Data Project 3/CSVs/Cases and fatalities/cases and fatalities 2022.csv",
+//     "../Clean Data Project 3/CSVs/Cases and fatalities/cases and fatalities 2023.csv",
 //   ];
 //   function fetchCSVData(csvFiles) {
 //     const promises = csvFiles.map((file) => d3.csv(file));
@@ -120,12 +120,10 @@ d3.csv("../Clean Data Project 3/CSV's/Cases and fatalities/cases and fatalities 
         .attr("class", "y-axis")
         .call(d3.axisLeft(yScale));
 });
-
-  });
     
 // create CSV string
 var csvString = [
-  "../Clean Data Project 3/CSV's/Commulative daily cases by year/Commulative daily cases 2021.csv"
+  "../Clean Data Project 3/CSVs/Commulative daily cases by year/Commulative daily cases 2021.csv"
 ];
 anychart.onDocumentLoad(function () {
   // create an instance of a pie chart
