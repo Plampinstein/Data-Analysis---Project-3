@@ -68,7 +68,7 @@ const svg = container.append("svg")
     .attr("height", height);
 
 // Load the CSV file and create the bar chart
-d3.csv("../../../Clean Data Project 3/CSVs/Cases and fatalities/Cases and fatalities 2020.csv").then(function (data) {
+d3.csv("../data/CSVs/Cases and fatalities/Cases and fatalities 2020.csv").then(function (data) {
     // Convert the numeric values to numbers
     data.forEach(function (d) {
         d.label = d.label;
@@ -123,7 +123,7 @@ d3.csv("../../../Clean Data Project 3/CSVs/Cases and fatalities/Cases and fatali
     
 // create CSV string
 var csvString = [
-  "../../../Clean Data Project 3/CSVs/Commulative daily cases by year/Commulative daily cases 2021.csv"
+  "../data/CSVs/Commulative daily cases by year/Commulative daily cases 2021.csv"
 ];
 anychart.onDocumentLoad(function () {
   // create an instance of a pie chart
